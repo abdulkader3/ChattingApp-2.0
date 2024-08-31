@@ -9,6 +9,9 @@ import { ToastContainer } from 'react-toastify'
 import ForgetPassword from './pages/ForgetPassword'
 import Profile from './component/Profile'
 import LayoutOne from './Layout/LayoutOne'
+import FriendList from './pages/FriendList'
+import FriendRequast from './pages/FriendRequast'
+import AddFriends from './pages/AddFriends'
 
 
 function App() {
@@ -20,6 +23,9 @@ function App() {
         <Route path='/registion' element={<Registion/>}/>
         <Route path='/forgetPassword' element={<ForgetPassword/>}/>
         <Route path='/chating' element={<ChatingPage/>}/>
+        <Route path='/friendslist' element={<FriendList/>}/>
+        <Route path='/friendrequast' element={<FriendRequast/>}/>
+        <Route path='/addfriends' element={<AddFriends/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Route>
     )
