@@ -302,7 +302,7 @@ const RegistrationPage = () => {
               <p>
                 Already have an account?{" "}
                 <Link to="/login" className="">
-                  Login
+                  Login..
                 </Link>
               </p>
             </div>
