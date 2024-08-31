@@ -25,7 +25,7 @@ const Profile = () => {
         <div className="flex flex-col items-center">
           <img
             className="h-40 w-40 object-cover mt-4 rounded-full border-4 border-white shadow-lg"
-            src={currentUserData.photoURL}
+            src={currentUserData?.photoURL}
             alt="Profile"
           />
           <div className="text-start mt-6">
@@ -34,11 +34,11 @@ const Profile = () => {
               Developer
             </div>
             <h1 className="mt-2 text-2xl leading-tight font-bold text-gray-900">
-              {currentUserData.displayName}
+              {currentUserData?.displayName}
             </h1>
             </div>
             <p className="mt-3 text-gray-700">
-              Email: <Link to='#' className="text-indigo-600 hover:text-indigo-700">{currentUserData.email} </Link>
+              Email: <Link to='#' className="text-indigo-600 hover:text-indigo-700">{currentUserData?.email} </Link>
             </p>
             <p className="mt-2 text-gray-700">
               Phone: <Link to='#' className="text-indigo-600 hover:text-indigo-700">+88 123456789</Link>

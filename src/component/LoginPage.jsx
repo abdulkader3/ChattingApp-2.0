@@ -8,7 +8,7 @@ import "./Home.css";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import app from "../firebase.config";
 import { CurrentUserLoginData } from "../Slices/Redux";
@@ -219,9 +219,9 @@ const LoginPage = () => {
             <div className="registerlink text-[15px] text-center mt-5 ">
               <p>
                 Don't have an account ?{" "}
-                <a className="  " href="/registion">
+                <Link className="  " to="/registion">
                   Register
-                </a>
+                </Link>
               </p>
             </div>
           </form>

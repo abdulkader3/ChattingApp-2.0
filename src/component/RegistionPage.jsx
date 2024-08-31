@@ -301,9 +301,9 @@ const RegistrationPage = () => {
             <div className="registerlink text-[15px] text-center mt-5">
               <p>
                 Already have an account?{" "}
-                <a href="/login" className="">
+                <Link to="/login" className="">
                   Login
-                </a>
+                </Link>
               </p>
             </div>
           </form>
