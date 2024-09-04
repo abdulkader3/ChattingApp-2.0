@@ -5,7 +5,7 @@ const AddFriends = () => {
     <>
 
     
-      
+      <h1>ok ok</h1>
     </>
   )
 }
