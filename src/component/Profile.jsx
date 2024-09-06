@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getDatabase, ref, set } from "firebase/database";
+import Navbar from '../pages/Navbar';
 
 
 
@@ -18,6 +19,7 @@ const Profile = () => {
 
   return (
     <>
+      <Navbar/>
       <div className="max-w-sm mx-auto relative mt-10">
       {/* First Background Layer */}
       <div className="absolute inset-0 transform -rotate-6 bg-gradient-to-r from-indigo-500 to-purple-700  shadow-2xl z-0"></div>

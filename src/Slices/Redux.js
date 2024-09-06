@@ -8,7 +8,7 @@ export const counterSlice = createSlice({
   reducers: {
 
     CurrentUserLoginData: (state, action) => {
-      state.value = action.payload
+      state.peraDitase = action.payload
     },
   },
 })

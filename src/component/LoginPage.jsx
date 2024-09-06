@@ -15,6 +15,7 @@ import { CurrentUserLoginData } from "../Slices/Redux";
 import { getDatabase, ref, set } from "firebase/database";
 
 
+
 const LoginPage = () => {
   // useState for email input
   const [email, upemail] = useState("");
@@ -112,10 +113,11 @@ const LoginPage = () => {
 
 
           // set data in real-time-database
-          set(ref(db, 'users/' ), {
-           user: 'fsdkjfj'
+          set(ref(db, 'users/' + user.uid ), {
+            username: user.displayName,
+            email: user.email,
+            profile_picture : user.photoURL,
           });
-        
           // set data in real-time-database
           
 

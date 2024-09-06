@@ -22,7 +22,7 @@ useEffect(()=>{
     <>
 
     <div className="flex">
-          <Navbar/>
+          
           <Outlet/>
     </div>
 

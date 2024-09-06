@@ -1,8 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const currentUserData = useSelector((state)=>state.prity.peraDitase)
   return (
     <>
       <nav className=" absolute top-0 left-0 w-[160px] shadow-2xl flex flex-col items-center justify-between  h-[100vh] Navbar ">
@@ -46,8 +48,10 @@ const Navbar = () => {
         </ul>
         <div className="w-full flex items-end h-full Profile ">
           <div className="flex items-center gap-4 mb-5 ml-1 w-full">
-            <div className=" w-[50px] h-[50px] bg-[#f37024] rounded-full "></div>
-            <h3> my name</h3>
+            <Link to="/" className=" w-[50px] h-[50px] overflow-hidden bg-[#f37024] rounded-full ">
+              <img src={currentUserData?.photoURL} alt="profile" />
+            </Link>
+            <Link to="/"> {currentUserData?.displayName} </Link>
           </div>
         </div>
       </nav>
