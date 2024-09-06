@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import app from "../firebase.config";
 import { CurrentUserLoginData } from "../Slices/Redux";
+import { getDatabase, ref, set } from "firebase/database";
 
 
 const LoginPage = () => {
@@ -26,6 +27,7 @@ const LoginPage = () => {
 
   // auth form firebase
   const auth = getAuth();
+  const db = getDatabase();
 
   const [password, uppassword] = useState("");
   const [passwordEror, uppasswordEror] = useState("");
@@ -107,6 +109,15 @@ const LoginPage = () => {
           // set data in localstorege
           localStorage.setItem('userLoginData', JSON.stringify(user))
           // set data in localstorege
+
+
+          // set data in real-time-database
+          set(ref(db, 'users/' ), {
+           user: 'fsdkjfj'
+          });
+        
+          // set data in real-time-database
+          
 
           }
         })
