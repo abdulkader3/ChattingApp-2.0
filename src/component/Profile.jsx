@@ -7,6 +7,8 @@ import Navbar from '../pages/Navbar';
 
 
 
+
+
 const Profile = () => {
 
   const currentUserData = useSelector((state)=>state.prity.peraDitase)

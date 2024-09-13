@@ -117,6 +117,7 @@ const LoginPage = () => {
             username: user.displayName,
             email: user.email,
             profile_picture : user.photoURL,
+            uid: user.uid,
           });
           // set data in real-time-database
           
