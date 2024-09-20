@@ -103,9 +103,9 @@ const LoginPage = () => {
                     navigate('/')
           // navigate to the prodile page
 
-          // srt data in rudex
+          // set data in rudex
           dispatch(CurrentUserLoginData(user))
-          // srt data in rudex
+          // set data in rudex
 
           // set data in localstorege
           localStorage.setItem('userLoginData', JSON.stringify(user))

@@ -35,9 +35,10 @@ const Navbar = () => {
                   : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
               }
             >
-              Friends List
+              Friend List
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to="/friendrequast"
@@ -50,6 +51,20 @@ const Navbar = () => {
               Friend Requast
             </NavLink>
           </li>
+          
+          <li>
+            <NavLink
+              to="/requastSend"
+              className={({ isActive }) =>
+                isActive
+                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+              }
+            >
+              Requast Send
+            </NavLink>
+          </li>
+
         </ul>
         <div className="w-full overflow-hidden flex flex-col justify-end items-center h-full Profile ">
           <div className="flex overflow-hidden items-center mb-52 gap-4 ml-10 w-full">

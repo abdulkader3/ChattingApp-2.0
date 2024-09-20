@@ -12,6 +12,7 @@ import LayoutOne from './Layout/LayoutOne'
 import FriendList from './pages/FriendList'
 import FriendRequast from './pages/FriendRequast'
 import AddFriends from './pages/AddFriends'
+import RequastSend from './pages/RequastSend'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path='/friendslist' element={<FriendList/>}/>
         <Route path='/friendrequast' element={<FriendRequast/>}/>
         <Route path='/addfriends' element={<AddFriends/>}/>
+        <Route path='/requastSend' element={<RequastSend/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Route>
     )

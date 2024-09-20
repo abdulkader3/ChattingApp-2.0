@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, remove, set } from "firebase/database";
+import { useSelector } from "react-redux";
 
 const FriendRequast = () => {
+
+  // get data of current user from redux
+  const sliseCurrentuser = useSelector((state)=>state.prity.peraDitase)
+
+  
 
   // to store data state is here
   const [requstdata , uprequstdata] = useState([])
@@ -15,10 +21,12 @@ const FriendRequast = () => {
   useEffect(() => {
     const starCountRef = ref(db, "friendRequastList/");
     onValue(starCountRef, (snapshot) => {
-       console.log(snapshot.val())
+       
        let kamerBAG = []
        snapshot.forEach((namThikama)=>{
+       if(namThikama.val().ReseverId == sliseCurrentuser.uid){
         kamerBAG.push({...namThikama.val() , key: namThikama.key})
+       }
        })
 
        uprequstdata(kamerBAG)
@@ -26,7 +34,25 @@ const FriendRequast = () => {
     });
   }, []);
 
-  console.log(requstdata)
+
+    // button funtion
+    const handelConfirmButton = (confirmData)=>{
+      
+      set(ref(db, 'FrindList/' + confirmData.key) ,{
+        currentUserID: sliseCurrentuser.uid,
+        currentUserName: sliseCurrentuser.displayName,
+        currentUserPhoto: sliseCurrentuser.photoURL,
+
+        FriendID: confirmData.ReseverId,
+        FriendName: confirmData.ReseverName,
+        FriendPhoto: confirmData.ReseverPhoto,
+
+      })
+
+
+        remove(ref(db, 'friendRequastList/' + confirmData.key))
+    }
+ 
 
   return (
     <>
@@ -50,7 +76,9 @@ const FriendRequast = () => {
               </span>
             </div>
             <div className="flex gap-3">
-              <button className="bg-gradient-to-r from-[#49e751] to-[#0f8] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#0f8] hover:to-[#49e751] transform hover:scale-105 transition duration-300 ease-in-out">
+              <button
+              onClick={()=>handelConfirmButton(SOBdata)}
+               className="bg-gradient-to-r from-[#49e751] to-[#0f8] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#0f8] hover:to-[#49e751] transform hover:scale-105 transition duration-300 ease-in-out">
                 Confirm
               </button>
               <button className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">

@@ -4,33 +4,25 @@ import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 
 const AddFriends = () => {
-  // data from redux
   const mainuser = useSelector((state) => state.prity.peraDitase);
-
-  // Real-time database
   const db = getDatabase();
 
-  // useState for array
   const [jonogon, upjonogon] = useState([]);
-  const [one, tow] = useState(false);
+  const [buttonStates, setButtonStates] = useState({}); //stap1
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
       let bag = [];
-
       snapshot.forEach((notItem) => {
         if (notItem.val().uid !== mainuser.uid) {
           bag.push({ ...notItem.val(), key: notItem.key });
         }
       });
-
-      // Update the state
       upjonogon(bag);
     });
   }, [db, mainuser.uid]);
 
-  // button for send friend-request
   const addFrind = (thatFriend) => {
     set(push(ref(db, "friendRequastList/")), {
       senderId: mainuser.uid,
@@ -40,12 +32,14 @@ const AddFriends = () => {
       ReseverName: thatFriend.username,
       ReseverPhoto: thatFriend.profile_picture,
     });
-    buttonchange();
+    buttonchange(thatFriend.uid); //stap 2
   };
 
-  // function to toggle the button state
-  const buttonchange = () => {
-    tow((prevState) => !prevState);
+  const buttonchange = (uid) => {
+    setButtonStates((one) => ({
+      ...one,
+      [uid]: !one[uid], // Toggle the specific button's state
+    }));
   };
 
   return (
@@ -71,9 +65,9 @@ const AddFriends = () => {
                   {sobpolapain?.username}
                 </span>
               </div>
-              {one ? (
+              {buttonStates[sobpolapain.uid] ? (
                 <button
-                  onClick={buttonchange}
+                  onClick={() => buttonchange(sobpolapain.uid)}
                   className="bg-gradient-to-r from-green-400 active:scale-95 to-blue-500 text-white px-5 py-2 rounded-full shadow-lg hover:from-green-500 hover:to-blue-600 transform hover:scale-105 transition duration-300 ease-in-out"
                 >
                   Cancel
