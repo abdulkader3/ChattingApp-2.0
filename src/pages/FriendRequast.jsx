@@ -37,15 +37,15 @@ const FriendRequast = () => {
 
     // button funtion
     const handelConfirmButton = (confirmData)=>{
-      
+      console.log(confirmData)
       set(ref(db, 'FrindList/' + confirmData.key) ,{
         currentUserID: sliseCurrentuser.uid,
         currentUserName: sliseCurrentuser.displayName,
         currentUserPhoto: sliseCurrentuser.photoURL,
 
-        FriendID: confirmData.ReseverId,
-        FriendName: confirmData.ReseverName,
-        FriendPhoto: confirmData.ReseverPhoto,
+        ReseverId: confirmData.senderId,
+        ReseverName: confirmData.senderName,
+        ReseverPhoto: confirmData.senderPhoto,
 
       })
 

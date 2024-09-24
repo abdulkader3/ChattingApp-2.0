@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { useSelector } from "react-redux";
 
 const FriendList = () => {
 
+  const currentUserSlice = useSelector((state)=>state.prity.peraDitase)
+
   // our costome hoks
   const [frindData , upfrindData] = useState([])
+
+  console.log(frindData)
 
   // data frome firebase realtime database
   const db = getDatabase();
@@ -16,11 +21,25 @@ const FriendList = () => {
     onValue(starCountRef, (snapshot) => {
       let bag = []
       snapshot.forEach((sokolerData)=>{
-        bag.push({...sokolerData.val() , key:sokolerData.key})
+        if( sokolerData.val().currentUserID == currentUserSlice.uid){
+
+          bag.push({userId: sokolerData.val().ReseverId , userName: sokolerData.val().ReseverName , userPhoto: sokolerData.val().ReseverPhoto})
+        }
+         else if
+         (sokolerData.val().ReseverId == currentUserSlice.uid){
+          
+          bag.push({userId: sokolerData.val().currentUserID , userName: sokolerData.val().currentUserName , userPhoto: sokolerData.val().currentUserPhoto})
+        }
       })
       upfrindData(bag)
     });
   }, []);
+
+// currentUserPhoto currentUserName currentUserID 
+
+
+
+
 
   return (
     <>
@@ -36,12 +55,12 @@ const FriendList = () => {
               <div key={SobData.key} className="flex items-center justify-between p-4 border-b border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out rounded-lg">
             <div className="flex items-center">
               <img
-                src={SobData?.FriendPhoto}
+                src={SobData?.userPhoto}
                 alt="profile"
                 className="w-14 h-14 rounded-full object-cover border-2 border-purple-500 shadow-sm"
               />
               <span className="ml-5 text-gray-800 font-semibold text-lg">
-                {SobData?.FriendName}
+                {SobData?.userName}
               </span>
             </div>
             <div className="flex gap-3">

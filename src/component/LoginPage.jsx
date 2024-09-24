@@ -193,7 +193,7 @@ const LoginPage = () => {
                 <input type="checkbox" />
                 Remember me{" "}
               </label>
-              <a href="/forgetPassword"> forgot password ? </a>
+              <Link to="/forgetPassword"> forgot password ? </Link>
             </div>
             <button
               type="submit"
@@ -210,24 +210,24 @@ const LoginPage = () => {
             </div>
             <div className="w-full gap-10 justify-center mt-5 mb-12 flex">
               <div className=" w-7 h-7 ">
-                <a href="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fhl%3Den%26utm_source%3DOGB%26utm_medium%3Dact&ec=GAlAwAE&hl=en&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S1108304790%3A1721147554738150&ddm=0">
+                <Link to="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fhl%3Den%26utm_source%3DOGB%26utm_medium%3Dact&ec=GAlAwAE&hl=en&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S1108304790%3A1721147554738150&ddm=0">
                   <img src="photos/search.png" alt="link" />
-                </a>
+                </Link>
               </div>
               <div className=" w-7 h-7 ">
-                <a href="https://web.facebook.com">
+                <Link to="https://web.facebook.com">
                   <img src="photos/facebook.png" alt="link" />
-                </a>
+                </Link>
               </div>
               <div className=" w-7 h-7 ">
-                <a href="https://x.com">
+                <Link to="https://x.com">
                   <img src="photos/twitter.png" alt="link" />
-                </a>
+                </Link>
               </div>
               <div className=" w-7 h-7 ">
-                <a href="https://www.icloud.com/">
+                <Link to="https://www.icloud.com/">
                   <img src="photos/apple-logo.png" alt="link" />
-                </a>
+                </Link>
               </div>
             </div>
             <div className="registerlink text-[15px] text-center mt-5 ">
