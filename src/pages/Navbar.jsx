@@ -64,6 +64,19 @@ const Navbar = () => {
               Requast Send
             </NavLink>
           </li>
+          
+          <li>
+            <NavLink
+              to="/blocklist"
+              className={({ isActive }) =>
+                isActive
+                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+              }
+            >
+              Block List
+            </NavLink>
+          </li>
 
         </ul>
         <div className="w-full overflow-hidden flex flex-col justify-end items-center h-full Profile ">

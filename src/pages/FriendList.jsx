@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 import { useSelector } from "react-redux";
 
 const FriendList = () => {
@@ -10,7 +10,7 @@ const FriendList = () => {
   // our costome hoks
   const [frindData , upfrindData] = useState([])
 
-  console.log(frindData)
+
 
   // data frome firebase realtime database
   const db = getDatabase();
@@ -23,19 +23,35 @@ const FriendList = () => {
       snapshot.forEach((sokolerData)=>{
         if( sokolerData.val().currentUserID == currentUserSlice.uid){
 
-          bag.push({userId: sokolerData.val().ReseverId , userName: sokolerData.val().ReseverName , userPhoto: sokolerData.val().ReseverPhoto})
+          bag.push({key: sokolerData.key, userId: sokolerData.val().ReseverId , userName: sokolerData.val().ReseverName , userPhoto: sokolerData.val().ReseverPhoto})
         }
          else if
          (sokolerData.val().ReseverId == currentUserSlice.uid){
           
-          bag.push({userId: sokolerData.val().currentUserID , userName: sokolerData.val().currentUserName , userPhoto: sokolerData.val().currentUserPhoto})
+          bag.push({key: sokolerData.key, userId: sokolerData.val().currentUserID , userName: sokolerData.val().currentUserName , userPhoto: sokolerData.val().currentUserPhoto})
         }
       })
       upfrindData(bag)
     });
   }, []);
 
-// currentUserPhoto currentUserName currentUserID 
+
+
+
+// BOCK button 
+const blockButton = (event)=>{
+  set(ref(db, 'BLOCKlist/' + event.key), {
+
+    currentUserID: currentUserSlice.uid,
+    currentUserName: currentUserSlice.displayName,
+    currentUserPhoto: currentUserSlice.photoURL,
+
+    BlockUserID: event.userId,
+    BlockUserName: event.userName,
+    BlockUserPhoto: event.userPhoto,
+  });
+  remove(ref(db , 'FrindList/' + event.key))
+}
 
 
 
@@ -64,7 +80,12 @@ const FriendList = () => {
               </span>
             </div>
             <div className="flex gap-3">
-              <button className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
+              <button 
+              onClick={()=>blockButton(SobData)}
+               className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
+                BLOCK
+              </button>
+              <button className="bg-gradient-to-r from-[#5cffce] to-[#00ff88] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#00ddff] hover:to-[#6aff00] transform hover:scale-105 transition duration-300 ease-in-out">
                 Unfrinde
               </button>
             </div>
