@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
+import { Bounce, toast } from "react-toastify";
 
 const AddFriends = () => {
   const mainuser = useSelector((state) => state.prity.peraDitase);
@@ -33,6 +34,18 @@ const AddFriends = () => {
       ReseverPhoto: thatFriend.profile_picture,
     });
     buttonchange(thatFriend.uid); //stap 2
+
+    toast.success("Friend Requast sent", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
   const buttonchange = (uid) => {

@@ -13,15 +13,15 @@ import { useDispatch } from "react-redux";
 import app from "../firebase.config";
 import { CurrentUserLoginData } from "../Slices/Redux";
 import { getDatabase, ref, set } from "firebase/database";
-
-
+import { BeatLoader } from "react-spinners";
 
 const LoginPage = () => {
   // useState for email input
   const [email, upemail] = useState("");
   const [emailEror, upemailEror] = useState("");
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(false);
 
   // data form redux
   // data form redux
@@ -63,6 +63,9 @@ const LoginPage = () => {
       upemailEror("");
       uppasswordEror("");
 
+      // Button icons
+      setLoader(true);
+
       // User sign in firebase
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -71,9 +74,8 @@ const LoginPage = () => {
           console.log(user);
           // ...
 
-          
-          if( user.emailVerified == false){
-            toast.error('Your email is not verified', {
+          if (user.emailVerified == false) {
+            toast.error("Your email is not verified", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -83,49 +85,47 @@ const LoginPage = () => {
               progress: undefined,
               theme: "light",
               transition: Bounce,
-              });
-          }
-          else{
-
+            });
+          } else {
             toast.success("Login successful", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
 
-          // navigate to the prodile page
-                    navigate('/')
-          // navigate to the prodile page
+            // navigate to the prodile page
+            navigate("/");
+            // navigate to the prodile page
 
-          // set data in rudex
-          dispatch(CurrentUserLoginData(user))
-          // set data in rudex
+            // set data in rudex
+            dispatch(CurrentUserLoginData(user));
+            // set data in rudex
 
-          // set data in localstorege
-          localStorage.setItem('userLoginData', JSON.stringify(user))
-          // set data in localstorege
+            // set data in localstorege
+            localStorage.setItem("userLoginData", JSON.stringify(user));
+            // set data in localstorege
 
-
-          // set data in real-time-database
-          set(ref(db, 'users/' + user.uid ), {
-            username: user.displayName,
-            email: user.email,
-            profile_picture : user.photoURL,
-            uid: user.uid,
-          });
-          // set data in real-time-database
-          
-
+            // set data in real-time-database
+            set(ref(db, "users/" + user.uid), {
+              username: user.displayName,
+              email: user.email,
+              profile_picture: user.photoURL,
+              uid: user.uid,
+            });
+            // set data in real-time-database
           }
         })
 
         .catch((error) => {
+          // Icons in the button
+          setLoader(false);
+
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log(errorCode);
@@ -195,12 +195,21 @@ const LoginPage = () => {
               </label>
               <Link to="/forgetPassword"> forgot password ? </Link>
             </div>
-            <button
-              type="submit"
-              className=" w-full h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[17px] text-[#333] font-semibold rounded-[40px] text-black bg-white "
-            >
-              Login
-            </button>
+
+            {/* Submit Button */}
+            {loader ? (
+              <div className="flex justify-center items-center w-full h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[17px] text-[#333] font-semibold rounded-[40px] bg-white">
+                <BeatLoader />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="w-full h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[17px] text-[#333] font-semibold rounded-[40px] bg-white"
+              >
+                Login
+              </button>
+            )}
+
             <div className="w-full flex mt-10 items-center gap-3 justify-center ">
               <div className="w-40 h-[2px] bg-white  "></div>
               <div className="">

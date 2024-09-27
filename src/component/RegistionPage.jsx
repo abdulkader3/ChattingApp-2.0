@@ -1,61 +1,52 @@
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
-
-
-
   // =========Use state for inputs
-  const [firstName, setFirstName]                       = useState("");
-  const [firstNameError, setFirstNameError]             = useState("");
-  const [email, setEmail]                               = useState("");
-  const [emailError, setEmailError]                     = useState("");
-  const [password, setPassword]                         = useState("");
-  const [passwordError, setPasswordError]               = useState("");
-  const [confirmpassword, setcomfirmError]              = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmpassword, setcomfirmError] = useState("");
   const [confirmpasswordError, setconfirmpasswordError] = useState("");
-  const [loader, setLoader]                             = useState(false);
-  const Navigate                                        = useNavigate()
-
-
+  const [loader, setLoader] = useState(false);
+  const Navigate = useNavigate();
 
   // show password
-  const [one , tow] = useState(false)
+  const [one, tow] = useState(false);
 
   // show password funtion
-  const visibility = ()=>{
-    tow(!one)
-  }
-
-
+  const visibility = () => {
+    tow(!one);
+  };
 
   // ==========Firebase setup
   const auth = getAuth();
 
-
-
-
   // =======Handlers for form fields
-
 
   // user name
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
     setFirstNameError("");
   };
-  
 
-
-// Email
+  // Email
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setEmailError("");
   };
-  
 
   // password
   const handlePassword = (e) => {
@@ -79,119 +70,107 @@ const RegistrationPage = () => {
       setEmailError("Please enter your email");
     } else if (!password) {
       setPasswordError("Please enter your password");
-    }else if(!confirmpassword){
-      setconfirmpasswordError("Please enter your confirm password")
-    }
-      else {
+    } else if (!confirmpassword) {
+      setconfirmpasswordError("Please enter your confirm password");
+    } else {
+      if (password != confirmpassword) {
+        toast.error("Password does not match with confirm password", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      } else {
+        console.log("oll okay");
+        // Button icons
+        setLoader(true);
 
-        if( password != confirmpassword){
-          toast.error('Password does not match with confirm password', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
+        // Email password auth from firebase
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Button icons
+            setLoader(false);
+            toast.success("Verification email send", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
             });
-        }
-        else{
-          console.log('oll okay')
-              // Button icons
-      setLoader(true);
-
-      // Email password auth from firebase
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Button icons
-          setLoader(false);
-          toast.success('Verification email send', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-            });
-
 
             // Navigate user to the login page
-            Navigate('/login')
+            Navigate("/login");
 
             // console user credit share just in case
-            console.log(userCredential)
+            console.log(userCredential);
 
             // updete user profile
             updateProfile(auth.currentUser, {
-              displayName: firstName ,
-              photoURL: "https://play-lh.googleusercontent.com/7oW_TFaC5yllHJK8nhxHLQRCvGDE8jYIAc2SWljYpR6hQlFTkbA6lNvER1ZK-doQnQ=w240-h480-rw"
-            })
+              displayName: firstName,
+              photoURL:
+                "https://play-lh.googleusercontent.com/7oW_TFaC5yllHJK8nhxHLQRCvGDE8jYIAc2SWljYpR6hQlFTkbA6lNvER1ZK-doQnQ=w240-h480-rw",
+            });
 
+            sendEmailVerification(auth.currentUser).then(() => {
+              // Email verification sent!
+              // ...
+            });
+          })
+          // Catch all the errors
+          .catch((error) => {
+            // Icons in the button
+            setLoader(false);
 
-            sendEmailVerification(auth.currentUser)
-            .then(() => {
-             // Email verification sent!
-             // ...
-           });
-          
-        })
-        // Catch all the errors
-        .catch((error) => {
+            // Error error
+            const errorCode = error.code;
 
-          // Icons in the button
-          setLoader(false);
-
-          // Error error
-          const errorCode = error.code;
-
-          // console error
-          console.log(errorCode)
-          if(errorCode == 'auth/email-already-in-use'){
-
-
-            // Toast container If or count already exists
-            toast.error('You already have an account', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
+            // console error
+            console.log(errorCode);
+            if (errorCode == "auth/email-already-in-use") {
+              // Toast container If or count already exists
+              toast.error("You already have an account", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
               });
-          }
+            }
 
-          // If password is less than six characters
-          if(errorCode == 'auth/weak-password'){
-            toast.error('Use stronger password', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
+            // If password is less than six characters
+            if (errorCode == "auth/weak-password") {
+              toast.error("Use stronger password", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
               });
-          }
-
-        });
-        }
-   
-     }
+            }
+          });
+      }
+    }
   };
 
   return (
     <>
-      
       <div className="flex">
         <div className="warper font-poppins rounded-[12px]">
           <form onSubmit={handleSubmit}>
@@ -222,7 +201,7 @@ const RegistrationPage = () => {
             {/* Password */}
             <div className="inputBox">
               <input
-                type={one ? "text" :"password" } 
+                type={one ? "text" : "password"}
                 onChange={handlePassword}
                 placeholder="Password"
               />
@@ -230,13 +209,11 @@ const RegistrationPage = () => {
             <div className="pl-5 text-[#8bcfff] text-[12px]">
               <p>{passwordError}</p>
             </div>
-            
-            
-            
+
             {/*Confirm Password */}
             <div className="inputBox">
               <input
-                type={one? "text":"password"}
+                type={one ? "text" : "password"}
                 onChange={handleConfirmPassword}
                 placeholder="Confirm password"
               />
@@ -246,11 +223,11 @@ const RegistrationPage = () => {
             </div>
 
             {/* show password */}
-           <div className="w-full flex justify-end mb-5">
-           <Link onClick={visibility} className="flex justify-end mb-5 " >
-            {one ? "hide password" : "show password"}
+            <div className="w-full flex justify-end mb-5">
+              <Link onClick={visibility} className="flex justify-end mb-5 ">
+                {one ? "hide password" : "show password"}
               </Link>
-           </div>
+            </div>
 
             {/* Submit Button */}
             {loader ? (

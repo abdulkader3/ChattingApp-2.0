@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { getDatabase, ref, onValue, remove, set } from "firebase/database";
 import { useSelector } from "react-redux";
+import { Bounce, toast } from "react-toastify";
 
 const FriendRequast = () => {
 
@@ -36,8 +37,23 @@ const FriendRequast = () => {
 
 
     // button funtion
+    const deletebutton = (deletedata)=>{
+      remove(ref(db, 'friendRequastList/' + deletedata.key))
+
+      toast.error("Friend Requast Delete", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,})
+    }
+    // button funtion
     const handelConfirmButton = (confirmData)=>{
-      console.log(confirmData)
+      
       set(ref(db, 'FrindList/' + confirmData.key) ,{
         currentUserID: sliseCurrentuser.uid,
         currentUserName: sliseCurrentuser.displayName,
@@ -51,6 +67,18 @@ const FriendRequast = () => {
 
 
         remove(ref(db, 'friendRequastList/' + confirmData.key))
+
+        toast.success("you both are friend new", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
     }
  
 
@@ -81,7 +109,7 @@ const FriendRequast = () => {
                className="bg-gradient-to-r from-[#49e751] to-[#0f8] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#0f8] hover:to-[#49e751] transform hover:scale-105 transition duration-300 ease-in-out">
                 Confirm
               </button>
-              <button className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
+              <button onClick={()=>deletebutton(SOBdata)} className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
                 Delete
               </button>
             </div>

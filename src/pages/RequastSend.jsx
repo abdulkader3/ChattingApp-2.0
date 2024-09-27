@@ -2,6 +2,7 @@
 import Navbar from './Navbar'
 import { useSelector } from 'react-redux'
 import { getDatabase, ref ,onValue, remove  } from 'firebase/database'
+import { Bounce, toast } from 'react-toastify'
 
 const RequastSend = () => {
 
@@ -37,6 +38,17 @@ const RequastSend = () => {
     //  remove button 
     const handelRemove = (onlyThatUserData)=>{
       remove(ref(db, 'friendRequastList/' + onlyThatUserData.key))
+      
+      toast.error(" Your Friend Requast Canceld", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,})
     }
 
   return (

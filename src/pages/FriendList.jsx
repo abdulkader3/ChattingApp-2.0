@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 import { useSelector } from "react-redux";
+import { Bounce, toast } from "react-toastify";
 
 const FriendList = () => {
 
@@ -51,6 +52,17 @@ const blockButton = (event)=>{
     BlockUserPhoto: event.userPhoto,
   });
   remove(ref(db , 'FrindList/' + event.key))
+
+  toast.error("The user been blockd", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,})
 }
 
 

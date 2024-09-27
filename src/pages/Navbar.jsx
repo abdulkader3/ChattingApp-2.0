@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { useSelector } from "react-redux";
 import { TbLogout2 } from "react-icons/tb";
+import { FaBell } from "react-icons/fa";
+
 
 const Navbar = () => {
   const currentUserData = useSelector((state)=>state.prity.peraDitase)
+
+  // trinary 
+  const [one , tow] = useState(false)
+
+
+  const fornotifition = ()=>{
+    tow(!one)
+  }
   
 
 
 
   return (
     <>
-      <nav className=" absolute overflow-hidden top-0 left-0 w-[160px] shadow-2xl flex flex-col items-center justify-between  h-[100vh] Navbar ">
+      <div className="mainnav  ">
+
+        <div className="">
+        <nav className=" absolute overflow-hidden top-0 left-0 w-[160px] shadow-2xl flex flex-col items-center justify-between  h-[100vh] Navbar ">
         <ul className="flex flex-col gap-10 mt-10">
           <li>
             <NavLink
@@ -90,6 +103,30 @@ const Navbar = () => {
           <button className=" text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-3 bg-white rounded-md  flex items-center gap-2 "> <TbLogout2/> LogOut </button>
         </div>
       </nav>
+          </div>
+
+
+
+
+          <div className=" notifition absolute top-10 right-10">
+            <h4 onClick={fornotifition} className="text-3xl notifitionIcon flex justify-end text-white"> <FaBell className=""/> </h4>
+            {one && <div className=" w-[250px] pt-5 h-[600px] notifitionPage ">
+
+
+              {/* data from realtime database */}
+
+              <div className="one w-full py-1 flex items-center mt-2 border-[1px]  rounded-md ">
+                <div className="">
+                  <Link className="flex flex-wrap pl-2 items-end text-white " to='/friendrequast'> <h4> name </h4> <p className="text-[13px] pl-1 flex text-wrap"> sent you friend requast</p> </Link>
+                </div>
+              </div>
+              
+              
+              </div>}
+          </div>
+
+
+      </div>
     </>
   );
 };
