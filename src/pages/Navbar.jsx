@@ -1,131 +1,110 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import "./Navbar.css";
 import { useSelector } from "react-redux";
 import { TbLogout2 } from "react-icons/tb";
 import { FaBell } from "react-icons/fa";
-
+import { FaBarsStaggered } from "react-icons/fa6";
+import "./Navbar.css"; // Assuming custom CSS for some extra styles
 
 const Navbar = () => {
-  const currentUserData = useSelector((state)=>state.prity.peraDitase)
+  const currentUserData = useSelector((state) => state.prity.peraDitase);
 
-  // trinary 
-  const [one , tow] = useState(false)
+  // State for notification and navbar toggle
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(true);
 
+  const toggleNotification = () => {
+    setNotificationOpen(!notificationOpen);
+  };
 
-  const fornotifition = ()=>{
-    tow(!one)
-  }
-  
-
-
+  const toggleNavbar = () => {
+    setNavbarOpen(!navbarOpen);
+  };
 
   return (
     <>
-      <div className="mainnav  ">
+      {/* Navbar Toggle Button for Mobile */}
+      <div
+        onClick={toggleNavbar}
+        className="w-full z-50 absolute top-2 left-3 cursor-pointer"
+      >
+        <FaBarsStaggered className="text-white text-2xl" />
+      </div>
 
-        <div className="">
-        <nav className=" absolute overflow-hidden top-0 left-0 w-[160px] shadow-2xl flex flex-col items-center justify-between  h-[100vh] Navbar ">
-        <ul className="flex flex-col gap-10 mt-10">
-          <li>
-            <NavLink
-              to="/addfriends"
-              className={({ isActive }) =>
-                isActive
-                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-              }
-            >
-              Add Friends
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/friendslist"
-              className={({ isActive }) =>
-                isActive
-                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-              }
-            >
-              Friend List
-            </NavLink>
-          </li>
+      {/* Sidebar Navigation */}
+      <div className={navbarOpen ? "mainnav" : "mainnav2"}>
+        <div>
+          <nav className="absolute z-40 overflow-hidden top-0 left-0 w-[340px] md:w-[160px] shadow-2xl flex flex-col items-start pl-2 justify-between h-full md:h-[100vh] Navbar">
+            <ul className="flex flex-col gap-8 mt-10 md:gap-10 md:mt-10">
+              {/* NavLink Items */}
+              {[
+                { to: "/addfriends", label: "Add Friends" },
+                { to: "/friendslist", label: "Friend List" },
+                { to: "/friendrequast", label: "Friend Request" },
+                { to: "/requastSend", label: "Request Sent" },
+                { to: "/blocklist", label: "Block List" },
+              ].map((link) => (
+                <li key={link.to}>
+                  <NavLink
+                    to={link.to}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[1px] md:p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+                        : "p-[7px] md:p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
 
-          <li>
-            <NavLink
-              to="/friendrequast"
-              className={({ isActive }) =>
-                isActive
-                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-              }
-            >
-              Friend Requast
-            </NavLink>
-          </li>
-          
-          <li>
-            <NavLink
-              to="/requastSend"
-              className={({ isActive }) =>
-                isActive
-                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-              }
-            >
-              Requast Send
-            </NavLink>
-          </li>
-          
-          <li>
-            <NavLink
-              to="/blocklist"
-              className={({ isActive }) =>
-                isActive
-                  ? " bg-blue-500 rounded-[2px] text-[#fff] hover:border-[1px] p-[8px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-                  : " p-[9px] rounded-[4px] hover:border-[1px] hover:bg-transparent transition-all active:scale-95 hover:scale-110"
-              }
-            >
-              Block List
-            </NavLink>
-          </li>
-
-        </ul>
-        <div className="w-full overflow-hidden flex flex-col justify-end items-center h-full Profile ">
-          <div className="flex overflow-hidden items-center mb-52 gap-4 ml-10 w-full">
-            <Link to="/" className=" w-[50px] h-[50px] overflow-hidden bg-[#f37024] rounded-full ">
-              <img src={currentUserData?.photoURL} alt="profile" />
-            </Link>
-            <Link to="/"> {currentUserData?.displayName} </Link>
-
-          </div>
-          <button className=" text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-3 bg-white rounded-md  flex items-center gap-2 "> <TbLogout2/> LogOut </button>
-        </div>
-      </nav>
-          </div>
-
-
-
-
-          <div className=" notifition absolute top-10 right-10">
-            <h4 onClick={fornotifition} className="text-3xl notifitionIcon flex justify-end text-white"> <FaBell className=""/> </h4>
-            {one && <div className=" w-[250px] pt-5 h-[600px] notifitionPage ">
-
-
-              {/* data from realtime database */}
-
-              <div className="one w-full py-1 flex items-center mt-2 border-[1px]  rounded-md ">
-                <div className="">
-                  <Link className="flex flex-wrap pl-2 items-end text-white " to='/friendrequast'> <h4> name </h4> <p className="text-[13px] pl-1 flex text-wrap"> sent you friend requast</p> </Link>
-                </div>
+            {/* Profile Section */}
+            <div className="w-full overflow-hidden flex flex-col justify-end items-center h-full Profile">
+              <div className="flex overflow-hidden items-center mb-16 gap-3 ml-8 w-full md:mb-52 md:gap-4 md:ml-10">
+                <Link
+                  to="/"
+                  className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] overflow-hidden rounded-full bg-gray-300"
+                >
+                  <img src={currentUserData?.photoURL} alt="profile" />
+                </Link>
+                <Link className="md:text-white text-wrap text-white" to="/">
+                  {currentUserData?.displayName}
+                </Link>
               </div>
-              
-              
-              </div>}
+              <button className="text-[15px] md:text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-2 md:p-3 bg-white rounded-md flex items-center gap-2">
+                <TbLogout2 /> LogOut
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      {/* Notification Section */}
+      <div className="notifition absolute top-4 z-50 right-4 md:top-10 md:right-10">
+        <h4
+          onClick={toggleNotification}
+          className="text-2xl md:text-3xl notifitionIcon flex justify-end text-white"
+        >
+          <FaBell className="" />
+        </h4>
+        {notificationOpen && (
+          <div className="w-[200px] md:w-[250px] pt-4 md:pt-5 h-[500px] md:h-[600px] notifitionPage">
+            <div className="one w-full py-1 flex items-center mt-2 border-[1px] md:border-white border-black rounded-md">
+              <div>
+                <Link
+                  className="flex flex-wrap pl-2 items-end text-black md:text-white"
+                  to="/friendrequast"
+                >
+                  <h4>name</h4>
+                  <p className="text-[12px] md:text-[13px] pl-1 flex text-wrap">
+                    sent you friend request
+                  </p>
+                </Link>
+              </div>
+            </div>
           </div>
-
-
+        )}
       </div>
     </>
   );
