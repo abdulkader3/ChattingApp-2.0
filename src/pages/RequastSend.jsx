@@ -54,7 +54,7 @@ const RequastSend = () => {
   return (
     <div>
         <Navbar/>
-        <div className="min-h-screen w-[900px] bg-gradient-to-r from-[#71ffe3] via-[#fff] to-[#008cff] flex flex-col items-center py-10">
+        <div className="md:min-h-screen h-full w-[300px] md:w-[900px] bg-gradient-to-r from-[#71ffe3] via-[#fff] to-[#008cff] flex flex-col items-center py-10">
         <h2 className="text-3xl font-bold text-black w-full text-center pt-5 pb-5 mb-8 shadow-lg">
           All User
         </h2>
@@ -68,9 +68,9 @@ const RequastSend = () => {
             <img
               src={sobData?.ReseverPhoto}
               alt="profile"
-              className="w-14 h-14 rounded-full object-cover border-2 border-purple-500 shadow-sm"
+              className="md:w-14 w-[30px] h-[30px] md:h-14 rounded-full object-cover border-2 border-purple-500 shadow-sm"
             />
-            <span className="ml-5 text-gray-800 font-semibold text-lg">
+            <span className="ml-5 text-gray-800 font-semibold text-[12px] md:text-lg">
               {sobData?.ReseverName}
             </span>
           </div>
@@ -78,7 +78,7 @@ const RequastSend = () => {
             
             <button
             onClick={()=> handelRemove(sobData)}
-             className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white px-5 py-2 rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
+             className="bg-gradient-to-r from-[#f00] to-[#ff00aa] active:scale-95 text-white md:px-5 px-2 md:py-2 py-0 md:text-[18px] text-[12px] rounded-full shadow-lg hover:from-[#ff00aa] hover:to-[#f00] transform hover:scale-105 transition duration-300 ease-in-out">
               Remove
             </button>
           </div>

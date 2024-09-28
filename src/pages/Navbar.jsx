@@ -43,6 +43,7 @@ const Navbar = () => {
                 { to: "/friendrequast", label: "Friend Request" },
                 { to: "/requastSend", label: "Request Sent" },
                 { to: "/blocklist", label: "Block List" },
+                { to: "/chating", label: "Chats" },
               ].map((link) => (
                 <li key={link.to}>
                   <NavLink
