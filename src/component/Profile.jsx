@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, set } from "firebase/database";
 import Navbar from "../pages/Navbar";
 import { FaUserEdit } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -10,7 +10,8 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { IoSaveOutline } from "react-icons/io5";
 // firebase storage
-import { getStorage, ref as storageREF, uploadString } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
+import { getAuth, onAuthStateChanged, updateProfile  } from "firebase/auth";
 
 const Profile = () => {
   // data frome redux
@@ -60,24 +61,29 @@ const Profile = () => {
 
   // firebase storage start
   const storage = getStorage();
+  const auth = getAuth();
 
 
 
 
 
 // after uplodeing the img save button
-const saveButton = ()=>{
-
-  console.log('top')
-  // Data URL string
-  const storageRef = storageREF(storage, 'photos/' + currentUserData.uid + '.png'); 
-
-uploadString(storageRef, cropData, 'data_url').then((snapshot) => {
-  console.log('Uploaded a data_url string!');
-});
-console.log('top')
-
-
+const handleSave=()=>{
+  const storageRef = ref(storage, 'userPhoto' + currentUserData.uid + '.png')
+    uploadString(storageRef, cropData, 'data_url').then((snapshot) => {
+      getDownloadURL(storageRef)
+      .then((url)=>{
+        onAuthStateChanged(auth, (user) => {
+          updateProfile(auth.currentUser, {
+            photoURL: url
+          })
+          .then(()=>{
+            location.reload()
+          })
+        });
+      })
+    console.log('Uploaded a data_url string!');
+   });
 }
   // firebase storage end
 
@@ -158,7 +164,7 @@ console.log('top')
                 <IoMdArrowRoundBack className="md:text-2xl md:mr-5 md:mt-5 hover:scale-125 active:scale-90 transition-all " />{" "}
               </button>
               <button
-              onClick={saveButton} 
+              onClick={handleSave} 
                >
                 {" "}
                 <IoSaveOutline className=" md:text-2xl md:mr-5 md:mt-5 hover:scale-125 active:scale-90 transition-all " />{" "}
