@@ -117,7 +117,7 @@ const RegistrationPage = () => {
             updateProfile(auth.currentUser, {
               displayName: firstName,
               photoURL:
-                "https://play-lh.googleusercontent.com/7oW_TFaC5yllHJK8nhxHLQRCvGDE8jYIAc2SWljYpR6hQlFTkbA6lNvER1ZK-doQnQ=w240-h480-rw",
+                "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
             });
 
             sendEmailVerification(auth.currentUser).then(() => {
