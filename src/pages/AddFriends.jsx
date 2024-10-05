@@ -65,7 +65,7 @@ const AddFriends = () => {
         <div className="w-full max-w-lg bg-white shadow-2xl rounded-lg p-6">
           {jonogon.map((sobpolapain) => (
             <div
-              key={sobpolapain.key}
+              key={sobpolapain?.key}
               className="flex items-center justify-between p-4 border-b border-gray-200 hover:bg-gray-100 transition duration-300 ease-in-out rounded-lg"
             >
               <div className="flex items-center">

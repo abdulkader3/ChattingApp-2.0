@@ -14,6 +14,8 @@ import FriendRequast from './pages/FriendRequast'
 import AddFriends from './pages/AddFriends'
 import RequastSend from './pages/RequastSend'
 import BlockList from './pages/BlockList'
+import app from './firebase.config'
+
 
 
 function App() {

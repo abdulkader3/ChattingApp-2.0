@@ -21,6 +21,16 @@ const Navbar = () => {
     setNavbarOpen(!navbarOpen);
   };
 
+
+  // for log out 
+  const logout = ()=>{
+
+    localStorage.removeItem('UserInformation')
+    localStorage.removeItem('userLoginData')
+    location.reload()
+    
+  }
+
   return (
     <>
       {/* Navbar Toggle Button for Mobile */}
@@ -28,7 +38,7 @@ const Navbar = () => {
         onClick={toggleNavbar}
         className="w-full z-50 absolute top-2 left-3 cursor-pointer"
       >
-        <FaBarsStaggered className="text-white text-2xl" />
+        <FaBarsStaggered className="text-white block md:hidden text-2xl" />
       </div>
 
       {/* Sidebar Navigation */}
@@ -73,7 +83,9 @@ const Navbar = () => {
                   {currentUserData?.displayName}
                 </Link>
               </div>
-              <button className="text-[15px] md:text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-2 md:p-3 bg-white rounded-md flex items-center gap-2">
+              <button 
+              onClick={logout} 
+               className="text-[15px] md:text-[17px] text-center overflow-hidden hover:text-white mb-2 hover:bg-transparent hover:border-[1px] hover:scale-110 active:scale-95 transition-all p-2 md:p-3 bg-white rounded-md flex items-center gap-2">
                 <TbLogout2 /> LogOut
               </button>
             </div>
