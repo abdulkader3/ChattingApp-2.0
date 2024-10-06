@@ -12,6 +12,9 @@
   .chatBox {
     scrollbar-width: none; /* Firefox */
   }
+  .massegeScroll{
+    scrollbar-width: none;
+  }
 
 
 
@@ -167,6 +170,8 @@
     .mainnav2{
         display: block;
     }
+
+    
     .UserPage .buttoUser{
         margin-left: 50px;
     }
@@ -190,6 +195,7 @@
 
 
 }
+
 
 
 /* for tevlet and small laptop */

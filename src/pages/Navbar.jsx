@@ -44,7 +44,7 @@ const Navbar = () => {
       {/* Sidebar Navigation */}
       <div className={navbarOpen ? "mainnav" : "mainnav2"}>
         <div>
-          <nav className="absolute z-40 overflow-hidden top-0 left-0 w-[340px] md:w-[160px] shadow-2xl flex flex-col items-start pl-2 justify-between h-full md:h-[100vh] Navbar">
+          <nav className="absolute z-40 overflow-hidden top-0 left-0 w-[340px] md:w-[180px] shadow-2xl flex flex-col items-start pl-2 justify-between h-full md:h-[100vh] Navbar">
             <ul className="flex flex-col gap-8 mt-10 md:gap-10 md:mt-10">
               {/* NavLink Items */}
               {[
@@ -72,13 +72,15 @@ const Navbar = () => {
 
             {/* Profile Section */}
             <div className="w-full overflow-hidden flex flex-col justify-end items-center h-full Profile">
-              <div className="flex overflow-hidden items-center mb-16 gap-3 ml-8 w-full md:mb-52 md:gap-4 md:ml-10">
+              <div className="flex flex-col mb-5">
+                <div className="w-full flex justify-center items-center">
                 <Link
                   to="/"
-                  className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] overflow-hidden rounded-full bg-gray-300"
+                  className="w-[50px] h-[50px] md:w-[50px]  md:h-[50px]"
                 >
-                  <img src={currentUserData?.photoURL} alt="profile" />
+                  <img className="w-[50px] h-[50px] rounded-full " src={currentUserData?.photoURL} alt="profile" />
                 </Link>
+                </div>
                 <Link className="md:text-white text-wrap text-white" to="/">
                   {currentUserData?.displayName}
                 </Link>

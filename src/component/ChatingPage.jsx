@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../pages/Navbar";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdPhotos } from "react-icons/io";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import { SliceUserChat } from "../Slices/SliceForChat";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
+import Resizer from 'react-image-file-resizer';
+
 
 const ChatingPage = () => {
   // for chating page
@@ -13,7 +15,12 @@ const ChatingPage = () => {
 
   const trinayCahtPage = () => {
     tow(!one);
-    townave(!onenav);
+    
+  };
+  const trinayForMobile = () => {
+    tow(!one);
+    townave(!onenav)
+    
   };
 
   // data frome rudex
@@ -80,13 +87,22 @@ const ChatingPage = () => {
   // send masg
   const send = () => {
     console.log("send hoise");
-    set(push(ref(db, "Message/")), {
-      senderId: SliceUser.uid,
-      reseverId: userInfoFormRedux.userId,
-      message: ongoingMessage,
-      messageTime: formatAMPM(new Date),
-    });
+    if(ongoingMessage == ''){
+      alert('Write something first')
+    }
+    else{
+      set(push(ref(db, "Message/")), {
+        senderId: SliceUser.uid,
+        senderPhoto: SliceUser.photoURL,
+        reseverId: userInfoFormRedux.userId,
+        message: ongoingMessage,
+        messagePhoto: base64String,
+        messageTime: formatAMPM(new Date),
+        
+      });
+    }
     UPongoingMessage("");
+    setBase64String('')
   };
 
   const enter = (e) => {
@@ -129,19 +145,78 @@ const ChatingPage = () => {
 
 
   console.log(formatAMPM(new Date));
-  // ===========time
-  // ReseverId ReseverName ReseverPhoto  currentUserName  currentUserPhoto currentUserID
+ 
+
+  // uplode img
+
+
+  const [base64String, setBase64String] = useState('');
+  const fileInputRef = useRef(null); // To reference the hidden file input
+
+  
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      Resizer.imageFileResizer(
+        file,
+        300, // maxWidth
+        300, // maxHeight
+        'JPEG', // format (can be JPEG, PNG, or WEBP)
+        100, // quality (0-100)
+        0, // rotation
+        (uri) => {
+          setBase64String(uri); // Base64 string
+        },
+        'base64' // output type
+      );
+    }
+  };
+
+  const handleIconClick = () => {
+    fileInputRef.current.click(); // Trigger the hidden file input click
+  };
+
+
+  // uplode img
 
   return (
     <>
-      {onenav ? "" : <Navbar />}
-      <div className="flex bg-[#00000048] w-full md:h-[100vh]   ">
+      {onenav ? "" : <Navbar  />}
+      <div className="flex bg-[#00000066] w-full md:h-[100vh]   ">
         <div className="divflex h-[100vh] ">
+
+
+
+
+
+
+
+
+
+
+
+          
           <div
             className={`w-[320px] ${
               one ? "chatPageC" : "chatPage"
-            } chats  md:ml-[70px] overflow-y-scroll py-10`}
+            } chats  md:ml-[100px] overflow-y-scroll py-10`}
           >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* map this */}
 
             {UserFiends.map((wewe) => (
@@ -150,9 +225,12 @@ const ChatingPage = () => {
                 onClick={() => sentdatatoredux(wewe)}
                 className=""
               >
-                <button
-                  onClick={trinayCahtPage}
-                  className=" w-full h-[50px] mt-5  bg-[#56565670] rounded-3xl "
+                
+                <div className="">
+                  {/* ============================= */}
+                  <button
+                  onClick={trinayForMobile}
+                  className=" w-full h-[50px] mt-5  md:hidden block bg-[#56565670] rounded-3xl "
                 >
                   <div className="flex gap-10 items-center pl-1">
                     <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
@@ -167,6 +245,30 @@ const ChatingPage = () => {
                     </h2>
                   </div>
                 </button>
+                  {/* ============================= */}
+
+
+
+                  {/* ============================= */}
+                  <button
+                  onClick={trinayCahtPage}
+                  className=" w-full h-[50px] mt-5 md:block hidden  bg-[#56565670] rounded-3xl "
+                >
+                  <div className="flex gap-10 items-center pl-1">
+                    <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
+                      <img
+                        className=" w-10 h-10  "
+                        src={wewe?.userPhoto}
+                        alt="user"
+                      />
+                    </div>
+                    <h2 className="text-white font-medium ">
+                      {wewe?.userName}{" "}
+                    </h2>
+                  </div>
+                </button>
+                  {/* ============================= */}
+                </div>
               </div>
             ))}
           </div>
@@ -193,13 +295,13 @@ const ChatingPage = () => {
                 {userInfoFormRedux?.userName}{" "}
               </h4>
             </div>
-            <div onClick={trinayCahtPage} className=" pl-2 pt-5 md:hidden ">
+            <div onClick={trinayForMobile} className=" pl-2 pt-5 md:hidden ">
               {" "}
               <IoIosArrowBack className="text-white text-[30px] " />
             </div>
 
             <div className="chatBox w-full h-[490px] md:h-[630px] relative flex flex-col justify-between gap-4 ">
-              <div className=" w-full h-[500px] overflow-y-scroll py-5">
+              <div className=" w-full h-[500px] overflow-y-scroll massegeScroll py-5">
                 {/* resever msg */}
                
                 {/* sender msg */}
@@ -208,18 +310,28 @@ const ChatingPage = () => {
                 {
                   incomeinggMessage.map((kotha)=>(
                     kotha.senderId == SliceUser.uid ?
-                  <div key={kotha.key} className="sentData bg-[#18d1ff2c] w-[150px] md:w-fit md:text-[15px] text-[10px] ml-[50%] py-2 px-5 rounded-xl text-white border ">
-                    <div className="">
+                  <div key={kotha.key} className="sentData bg-[#18d1ff2c] w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[50%] py-2 px-5 rounded-xl text-wrap text-white border ">
+                    <div className="text-wrap">
                     <p>{kotha?.message}</p>
+                    <div className="">
+                  <img src={kotha?.messagePhoto} alt="" />
+                 </div>
                     <p>{kotha?.messageTime}</p>
                     </div>
                   </div> : 
-                   <div className="resiveData w-[150px] md:w-[400px] text-[10px] md:text-[15px] ml-[2%] py-2 px-5 rounded-xl text-white border ">
-                   <div className="">
+                   <div className=" ml-[2px] md:ml-2">
+                    <img className=" md:w-[30px] w-[20px] h-[20px] md:h-[30px] rounded-full " src={kotha?.senderPhoto} alt="" />
+                    <div className="resiveData w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[2%] py-2 px-5 rounded-xl text-wrap text-white border ">
+                   <div className="text-wrap">
                     <p>{kotha?.message}</p>
+                    <div className="">
+                  <img src={kotha?.messagePhoto} alt="" />
+                 </div>
                     <p>{kotha?.messageTime}</p>
                     </div>
                  </div>
+               
+                   </div>
  
                     ))
                     
@@ -240,6 +352,32 @@ const ChatingPage = () => {
                   type="text"
                   placeholder=" your message"
                 />
+                <div className=" absolute top-[10px] right-[60px] md:right-[120px] ">
+                {/* uplode img */}
+
+                <div>
+      {/* Hidden file input */}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        ref={fileInputRef}
+        style={{ display: 'none' }} // Hide the file input
+      />
+
+      {/* Clickable icon to open file selector */}
+      <IoMdPhotos
+        className='text-[#fff] md:text-[30px] text-[25px] ' 
+        onClick={handleIconClick} // Handle click on the icon
+        style={{ cursor: 'pointer' }} // Add pointer cursor to indicate it's clickable
+      />
+
+     
+    </div>
+
+
+                {/* uplode img */}
+                </div>
                 <button onClick={send}>
                   <PiPaperPlaneRightFill className="text-white text-[25px] active:scale-90 hover:scale-110 transition-all absolute md:top-[12px] md:right-[60px] top-[10px] right-[20px] " />
                 </button>
