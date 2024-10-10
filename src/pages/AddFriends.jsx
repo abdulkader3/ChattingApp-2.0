@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import Navbar from "./Navbar";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useSelector } from "react-redux";
 import { Bounce, toast } from "react-toastify";
 
 const AddFriends = () => {
+  // data from redux
   const mainuser = useSelector((state) => state.prity.peraDitase);
+
+  //firebase variables
   const db = getDatabase();
 
+  // custom state
   const [jonogon, upjonogon] = useState([]);
-  const [buttonStates, setButtonStates] = useState({}); //stap1
 
+  // Arrays to store sent requests and confirmed friends
+  const [friendRequestsSent, setFriendRequestsSent] = useState([]);
+  const [confirmedFriends, setConfirmedFriends] = useState([]);
+
+  // Fetch all users and sent friend requests from Firebase
   useEffect(() => {
+    // Fetch all users
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
       let bag = [];
@@ -22,8 +31,35 @@ const AddFriends = () => {
       });
       upjonogon(bag);
     });
+
+    // Fetch sent friend requests to update button states
+    const requestRef = ref(db, `friendRequestsSent/${mainuser.uid}`);
+    onValue(requestRef, (snapshot) => {
+      const requests = snapshot.val() || {};
+      setFriendRequestsSent(Object.keys(requests));
+    });
+
+    // Fetch confirmed friends
+    const friendsRef = ref(db, `FrindList/`);
+    onValue(friendsRef, (snapshot) => {
+      let friends = [];
+      snapshot.forEach((friendItem) => {
+        const friendData = friendItem.val();
+        if (
+          (friendData.currentUserID === mainuser.uid || friendData.ReseverId === mainuser.uid)
+        ) {
+          friends.push(
+            friendData.currentUserID === mainuser.uid
+              ? friendData.ReseverId
+              : friendData.currentUserID
+          );
+        }
+      });
+      setConfirmedFriends(friends);
+    });
   }, [db, mainuser.uid]);
 
+  // Function to add friend
   const addFrind = (thatFriend) => {
     set(push(ref(db, "friendRequastList/")), {
       senderId: mainuser.uid,
@@ -33,9 +69,14 @@ const AddFriends = () => {
       ReseverName: thatFriend.username,
       ReseverPhoto: thatFriend.profile_picture,
     });
-    buttonchange(thatFriend.uid); //stap 2
 
-    toast.success("Friend Requast sent", {
+    // Update friendRequestsSent array and Firebase
+    set(ref(db, `friendRequestsSent/${mainuser.uid}/${thatFriend.uid}`), true);
+
+    // Add the user to the array locally
+    setFriendRequestsSent((prev) => [...prev, thatFriend.uid]);
+
+    toast.success("Friend Request Sent", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -48,11 +89,13 @@ const AddFriends = () => {
     });
   };
 
-  const buttonchange = (uid) => {
-    setButtonStates((one) => ({
-      ...one,
-      [uid]: !one[uid], // Toggle the specific button's state
-    }));
+  // Function to cancel a friend request
+  const Cancelbutton = (uid) => {
+    // Remove the friend ID from the array locally
+    setFriendRequestsSent((prev) => prev.filter((id) => id !== uid));
+
+    // Remove from Firebase
+    set(ref(db, `friendRequestsSent/${mainuser.uid}/${uid}`), null);
   };
 
   return (
@@ -78,10 +121,16 @@ const AddFriends = () => {
                   {sobpolapain?.username}
                 </span>
               </div>
-              {buttonStates[sobpolapain.uid] ? (
+
+              {/* Check if the users are already friends */}
+              {confirmedFriends.includes(sobpolapain.uid) ? (
+                <button className="bg-gray-400 cursor-not-allowed text-white md:px-5 px-2 md:py-2 py-0 md:text-[18px] text-[12px] rounded-full shadow-lg">
+                  Friends
+                </button>
+              ) : friendRequestsSent.includes(sobpolapain.uid) ? (
                 <button
-                  onClick={() => buttonchange(sobpolapain.uid)}
-                  className="bg-gradient-to-r from-green-400  active:scale-95 to-blue-500 text-white md:px-5 px-2 md:py-2 py-0 md:text-[18px] text-[12px] rounded-full shadow-lg hover:from-green-500 hover:to-blue-600 transform hover:scale-105 transition duration-300 ease-in-out"
+                  onClick={() => Cancelbutton(sobpolapain.uid)}
+                  className="bg-gradient-to-r from-green-400 active:scale-95 to-blue-500 text-white md:px-5 px-2 md:py-2 py-0 md:text-[18px] text-[12px] rounded-full shadow-lg hover:from-green-500 hover:to-blue-600 transform hover:scale-105 transition duration-300 ease-in-out"
                 >
                   Cancel
                 </button>
