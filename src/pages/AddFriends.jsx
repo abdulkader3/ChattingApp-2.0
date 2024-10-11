@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import { getDatabase, ref, onValue, set, remove, push } from "firebase/database";
 import { useSelector } from "react-redux";
 import { Bounce, toast } from "react-toastify";
 
@@ -94,8 +94,9 @@ const AddFriends = () => {
     // Remove the friend ID from the array locally
     setFriendRequestsSent((prev) => prev.filter((id) => id !== uid));
 
-    // Remove from Firebase
-    set(ref(db, `friendRequestsSent/${mainuser.uid}/${uid}`), null);
+    // Remove from Firebase (sent requests and request list)
+    remove(ref(db, `friendRequestsSent/${mainuser.uid}/${uid}`)); // Remove the request from sent requests
+    remove(ref(db, `friendRequastList/${mainuser.uid}_${uid}`)); // Remove from friend request list using unique key
   };
 
   return (

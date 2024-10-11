@@ -30,7 +30,11 @@ const FriendRequast = () => {
 
   // Function to delete a request
   const deletebutton = (deletedata) => {
+    // Remove the request from the friend request list
     remove(ref(db, "friendRequastList/" + deletedata.key));
+
+    // Remove the request from the sent requests
+    remove(ref(db, `friendRequestsSent/${deletedata.senderId}/${sliseCurrentuser.uid}`));
 
     toast.error("Friend Request Deleted", {
       position: "top-right",
@@ -57,8 +61,9 @@ const FriendRequast = () => {
       ReseverPhoto: confirmData.senderPhoto,
     });
 
-    // Remove request from "friendRequastList"
+    // Remove request from "friendRequastList" and "friendRequestsSent"
     remove(ref(db, "friendRequastList/" + confirmData.key));
+    remove(ref(db, `friendRequestsSent/${confirmData.senderId}/${sliseCurrentuser.uid}`));
 
     toast.success("You are now friends", {
       position: "top-right",
