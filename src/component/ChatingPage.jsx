@@ -5,8 +5,7 @@ import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
 import { SliceUserChat } from "../Slices/SliceForChat";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
-import Resizer from 'react-image-file-resizer';
-
+import Resizer from "react-image-file-resizer";
 
 const ChatingPage = () => {
   // for chating page
@@ -15,12 +14,10 @@ const ChatingPage = () => {
 
   const trinayCahtPage = () => {
     tow(!one);
-    
   };
   const trinayForMobile = () => {
     tow(!one);
-    townave(!onenav)
-    
+    townave(!onenav);
   };
 
   // data frome rudex
@@ -87,22 +84,20 @@ const ChatingPage = () => {
   // send masg
   const send = () => {
     console.log("send hoise");
-    if(ongoingMessage == ''){
-      alert('Write something first')
-    }
-    else{
+    if (ongoingMessage == "" && base64String == '') {
+      alert("Write something first");
+    } else {
       set(push(ref(db, "Message/")), {
         senderId: SliceUser.uid,
         senderPhoto: SliceUser.photoURL,
         reseverId: userInfoFormRedux.userId,
         message: ongoingMessage,
         messagePhoto: base64String,
-        messageTime: formatAMPM(new Date),
-        
+        messageTime: formatAMPM(new Date()),
       });
     }
     UPongoingMessage("");
-    setBase64String('')
+    setBase64String("");
   };
 
   const enter = (e) => {
@@ -113,47 +108,44 @@ const ChatingPage = () => {
   };
 
   useEffect(() => {
-    const starCountRef = ref(db, "Message/" );
+    const starCountRef = ref(db, "Message/");
     onValue(starCountRef, (snapshot) => {
-      let bag = []
-      snapshot.forEach((MSGdata)=>{
-        if( MSGdata.val().senderId == SliceUser.uid && MSGdata.val().reseverId == userInfoFormRedux.userId){
-          bag.push({...MSGdata.val() , key:MSGdata.key})
+      let bag = [];
+      snapshot.forEach((MSGdata) => {
+        if (
+          MSGdata.val().senderId == SliceUser.uid &&
+          MSGdata.val().reseverId == userInfoFormRedux.userId
+        ) {
+          bag.push({ ...MSGdata.val(), key: MSGdata.key });
+        } else if (
+          MSGdata.val().reseverId == SliceUser.uid &&
+          MSGdata.val().senderId == userInfoFormRedux.userId
+        ) {
+          bag.push({ ...MSGdata.val(), key: MSGdata.key });
         }
-        else if(MSGdata.val().reseverId == SliceUser.uid && MSGdata.val().senderId == userInfoFormRedux.userId){
-          bag.push({...MSGdata.val() , key:MSGdata.key})
-        }
-      })
-      UPincomeingMessage(bag)
-      
+      });
+      UPincomeingMessage(bag);
     });
   }, [userInfoFormRedux]);
-
-
 
   // ===========time
   function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'pm' : 'am';
+    var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
     return strTime;
   }
 
-
-  console.log(formatAMPM(new Date));
- 
+  console.log(formatAMPM(new Date()));
 
   // uplode img
 
-
-  const [base64String, setBase64String] = useState('');
+  const [base64String, setBase64String] = useState("");
   const fileInputRef = useRef(null); // To reference the hidden file input
-
-  
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -163,13 +155,13 @@ const ChatingPage = () => {
         file,
         300, // maxWidth
         300, // maxHeight
-        'JPEG', // format (can be JPEG, PNG, or WEBP)
+        "JPEG", // format (can be JPEG, PNG, or WEBP)
         100, // quality (0-100)
         0, // rotation
         (uri) => {
           setBase64String(uri); // Base64 string
         },
-        'base64' // output type
+        "base64" // output type
       );
     }
   };
@@ -178,45 +170,18 @@ const ChatingPage = () => {
     fileInputRef.current.click(); // Trigger the hidden file input click
   };
 
-
   // uplode img
 
   return (
     <>
-      {onenav ? "" : <Navbar  />}
+      {onenav ? "" : <Navbar />}
       <div className="flex bg-[#00000066] w-full md:h-[100vh]   ">
         <div className="divflex h-[100vh] ">
-
-
-
-
-
-
-
-
-
-
-
-          
           <div
             className={`w-[320px] ${
               one ? "chatPageC" : "chatPage"
             } chats  md:ml-[100px] overflow-y-scroll py-10`}
           >
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* map this */}
 
             {UserFiends.map((wewe) => (
@@ -225,48 +190,45 @@ const ChatingPage = () => {
                 onClick={() => sentdatatoredux(wewe)}
                 className=""
               >
-                
                 <div className="">
                   {/* ============================= */}
                   <button
-                  onClick={trinayForMobile}
-                  className=" w-full h-[50px] mt-5  md:hidden block bg-[#56565670] rounded-3xl "
-                >
-                  <div className="flex gap-10 items-center pl-1">
-                    <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
-                      <img
-                        className=" w-10 h-10  "
-                        src={wewe?.userPhoto}
-                        alt="user"
-                      />
+                    onClick={trinayForMobile}
+                    className=" w-full h-[50px] mt-5  md:hidden block bg-[#56565670] rounded-3xl "
+                  >
+                    <div className="flex gap-10 items-center pl-1">
+                      <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
+                        <img
+                          className=" w-10 h-10  "
+                          src={wewe?.userPhoto}
+                          alt="user"
+                        />
+                      </div>
+                      <h2 className="text-white font-medium ">
+                        {wewe?.userName}{" "}
+                      </h2>
                     </div>
-                    <h2 className="text-white font-medium ">
-                      {wewe?.userName}{" "}
-                    </h2>
-                  </div>
-                </button>
+                  </button>
                   {/* ============================= */}
-
-
 
                   {/* ============================= */}
                   <button
-                  onClick={trinayCahtPage}
-                  className=" w-full h-[50px] mt-5 md:block hidden  bg-[#56565670] rounded-3xl "
-                >
-                  <div className="flex gap-10 items-center pl-1">
-                    <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
-                      <img
-                        className=" w-10 h-10  "
-                        src={wewe?.userPhoto}
-                        alt="user"
-                      />
+                    onClick={trinayCahtPage}
+                    className=" w-full h-[50px] mt-5 md:block hidden  bg-[#56565670] rounded-3xl "
+                  >
+                    <div className="flex gap-10 items-center pl-1">
+                      <div className=" w-10 h-10 overflow-hidden rounded-full bg-green-600 ">
+                        <img
+                          className=" w-10 h-10  "
+                          src={wewe?.userPhoto}
+                          alt="user"
+                        />
+                      </div>
+                      <h2 className="text-white font-medium ">
+                        {wewe?.userName}{" "}
+                      </h2>
                     </div>
-                    <h2 className="text-white font-medium ">
-                      {wewe?.userName}{" "}
-                    </h2>
-                  </div>
-                </button>
+                  </button>
                   {/* ============================= */}
                 </div>
               </div>
@@ -303,43 +265,42 @@ const ChatingPage = () => {
             <div className="chatBox w-full h-[490px] md:h-[630px] relative flex flex-col justify-between gap-4 ">
               <div className=" w-full h-[500px] overflow-y-scroll massegeScroll py-5">
                 {/* resever msg */}
-               
+
                 {/* sender msg */}
 
-
-                {
-                  incomeinggMessage.map((kotha)=>(
-                    kotha.senderId == SliceUser.uid ?
-                  <div key={kotha.key} className="sentData bg-[#18d1ff2c] w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[50%] py-2 px-5 rounded-xl text-wrap text-white border ">
-                    <div className="text-wrap">
-                    <p>{kotha?.message}</p>
-                    <div className="">
-                  <img src={kotha?.messagePhoto} alt="" />
-                 </div>
-                    <p>{kotha?.messageTime}</p>
+                {incomeinggMessage.map((kotha) =>
+                  kotha.senderId == SliceUser.uid ? (
+                    <div
+                      key={kotha.key}
+                      className="sentData bg-[#18d1ff2c] w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[50%] py-2 px-5 rounded-xl text-wrap text-white border "
+                    >
+                      <div className="text-wrap">
+                        <p>{kotha?.message}</p>
+                        <div className="">
+                          <img src={kotha?.messagePhoto} alt="" />
+                        </div>
+                        <p>{kotha?.messageTime}</p>
+                      </div>
                     </div>
-                  </div> : 
-                   <div className=" ml-[2px] md:ml-2">
-                    <img className=" md:w-[30px] w-[20px] h-[20px] md:h-[30px] rounded-full " src={kotha?.senderPhoto} alt="" />
-                    <div className="resiveData w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[2%] py-2 px-5 rounded-xl text-wrap text-white border ">
-                   <div className="text-wrap">
-                    <p>{kotha?.message}</p>
-                    <div className="">
-                  <img src={kotha?.messagePhoto} alt="" />
-                 </div>
-                    <p>{kotha?.messageTime}</p>
+                  ) : (
+                    <div className=" ml-[2px] md:ml-2">
+                      <img
+                        className=" md:w-[30px] w-[20px] h-[20px] md:h-[30px] rounded-full "
+                        src={kotha?.senderPhoto}
+                        alt=""
+                      />
+                      <div className="resiveData w-[150px] md:w-[400px] text-[10px] mb-2 md:text-[15px] ml-[2%] py-2 px-5 rounded-xl text-wrap text-white border ">
+                        <div className="text-wrap">
+                          <p>{kotha?.message}</p>
+                          <div className="">
+                            <img src={kotha?.messagePhoto} alt="" />
+                          </div>
+                          <p>{kotha?.messageTime}</p>
+                        </div>
+                      </div>
                     </div>
-                 </div>
-               
-                   </div>
- 
-                    ))
-                    
-                }
-                
-
-
-
+                  )
+                )}
               </div>
 
               {/* text box */}
@@ -353,30 +314,27 @@ const ChatingPage = () => {
                   placeholder=" your message"
                 />
                 <div className=" absolute top-[10px] right-[60px] md:right-[120px] ">
-                {/* uplode img */}
+                  {/* uplode img */}
 
-                <div>
-      {/* Hidden file input */}
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        ref={fileInputRef}
-        style={{ display: 'none' }} // Hide the file input
-      />
+                  <div>
+                    {/* Hidden file input */}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      ref={fileInputRef}
+                      style={{ display: "none" }} // Hide the file input
+                    />
 
-      {/* Clickable icon to open file selector */}
-      <IoMdPhotos
-        className='text-[#fff] md:text-[30px] text-[25px] ' 
-        onClick={handleIconClick} // Handle click on the icon
-        style={{ cursor: 'pointer' }} // Add pointer cursor to indicate it's clickable
-      />
+                    {/* Clickable icon to open file selector */}
+                    <IoMdPhotos
+                      className="text-[#fff] md:text-[30px] text-[25px] "
+                      onClick={handleIconClick} // Handle click on the icon
+                      style={{ cursor: "pointer" }} // Add pointer cursor to indicate it's clickable
+                    />
+                  </div>
 
-     
-    </div>
-
-
-                {/* uplode img */}
+                  {/* uplode img */}
                 </div>
                 <button onClick={send}>
                   <PiPaperPlaneRightFill className="text-white text-[25px] active:scale-90 hover:scale-110 transition-all absolute md:top-[12px] md:right-[60px] top-[10px] right-[20px] " />

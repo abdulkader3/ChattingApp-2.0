@@ -10,8 +10,13 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { IoSaveOutline } from "react-icons/io5";
 // firebase storage
-import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
-import { getAuth, onAuthStateChanged, updateProfile  } from "firebase/auth";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadString,
+} from "firebase/storage";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
 
 const Profile = () => {
   // data frome redux
@@ -53,38 +58,30 @@ const Profile = () => {
     }
   };
   // lets see the magic
-  console.log(cropData)
+  console.log(cropData);
 
   // typeScript
-
-
 
   // firebase storage start
   const storage = getStorage();
   const auth = getAuth();
 
-
-
-
-
-// after uplodeing the img save button
-const handleSave=()=>{
-  const storageRef = ref(storage, 'userPhoto' + currentUserData.uid + '.png')
-    uploadString(storageRef, cropData, 'data_url').then((snapshot) => {
-      getDownloadURL(storageRef)
-      .then((url)=>{
+  // after uplodeing the img save button
+  const handleSave = () => {
+    const storageRef = ref(storage, "userPhoto" + currentUserData.uid + ".png");
+    uploadString(storageRef, cropData, "data_url").then((snapshot) => {
+      getDownloadURL(storageRef).then((url) => {
         onAuthStateChanged(auth, (user) => {
           updateProfile(auth.currentUser, {
-            photoURL: url
-          })
-          .then(()=>{
-            location.reload()
-          })
+            photoURL: url,
+          }).then(() => {
+            location.reload();
+          });
         });
-      })
-    console.log('Uploaded a data_url string!');
-   });
-}
+      });
+      console.log("Uploaded a data_url string!");
+    });
+  };
   // firebase storage end
 
   return (
@@ -163,9 +160,7 @@ const handleSave=()=>{
                 {" "}
                 <IoMdArrowRoundBack className="md:text-2xl md:mr-5 md:mt-5 hover:scale-125 active:scale-90 transition-all " />{" "}
               </button>
-              <button
-              onClick={handleSave} 
-               >
+              <button onClick={handleSave}>
                 {" "}
                 <IoSaveOutline className=" md:text-2xl md:mr-5 md:mt-5 hover:scale-125 active:scale-90 transition-all " />{" "}
               </button>
@@ -173,42 +168,56 @@ const handleSave=()=>{
 
             {/* cropper TSX  */}
             <div>
-  <div style={{ width: "100%" }}>
-    <div className="flex w-full md:mt-2">
-      <input className="text-[9px] md:text-[16px]" type="file" onChange={onChange} />
-    </div>
-    <br />
-    <br />
-    <Cropper
-  ref={cropperRef}
-  className="w-full h-[200px] md:h-[300px]" // Responsive heights for different devices
-  zoomTo={0.5}
-  initialAspectRatio={1}
-  preview=".img-preview"
-  src={image}
-  viewMode={1}
-  minCropBoxHeight={10}
-  minCropBoxWidth={10}
-  background={false}
-  responsive={true}
-  autoCropArea={1}
-  checkOrientation={false}
-  guides={true}
-/>
-
-  </div>
-  <div>
-    <div className="box pt-5 px-5" style={{ width: "100%", float: "right" }}>
-      <h1>
-        <button style={{ float: "right" }} onClick={getCropData}>
-          Crop Image
-        </button>
-      </h1>
-      <img style={{ width: "120px", height: "120px", objectFit: "cover" }} src={cropData} alt="img" />
-    </div>
-  </div>
-  <br style={{ clear: "both" }} />
-</div>
+              <div style={{ width: "100%" }}>
+                <div className="flex w-full md:mt-2">
+                  <input
+                    className="text-[9px] md:text-[16px]"
+                    type="file"
+                    onChange={onChange}
+                  />
+                </div>
+                <br />
+                <br />
+                <Cropper
+                  ref={cropperRef}
+                  className="w-full h-[200px] md:h-[300px]" // Responsive heights for different devices
+                  zoomTo={0.5}
+                  initialAspectRatio={1}
+                  preview=".img-preview"
+                  src={image}
+                  viewMode={1}
+                  minCropBoxHeight={10}
+                  minCropBoxWidth={10}
+                  background={false}
+                  responsive={true}
+                  autoCropArea={1}
+                  checkOrientation={false}
+                  guides={true}
+                />
+              </div>
+              <div>
+                <div
+                  className="box pt-5 px-5"
+                  style={{ width: "100%", float: "right" }}
+                >
+                  <h1>
+                    <button style={{ float: "right" }} onClick={getCropData}>
+                      Crop Image
+                    </button>
+                  </h1>
+                  <img
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      objectFit: "cover",
+                    }}
+                    src={cropData}
+                    alt="img"
+                  />
+                </div>
+              </div>
+              <br style={{ clear: "both" }} />
+            </div>
 
             {/* cropper TSX  */}
           </div>
