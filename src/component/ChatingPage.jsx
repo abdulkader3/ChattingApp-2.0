@@ -84,7 +84,7 @@ const ChatingPage = () => {
   // send masg
   const send = () => {
     console.log("send hoise");
-    if (ongoingMessage == "" && base64String == '') {
+    if ( ongoingMessage == "" && base64String == '') {
       alert("Write something first");
     } else {
       set(push(ref(db, "Message/")), {

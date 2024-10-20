@@ -114,7 +114,7 @@ const BlockList = () => {
       <Navbar />
       <div className="md:min-h-screen h-full w-[300px] md:w-[900px] bg-gradient-to-r from-[#71ffe3] via-[#fff] to-[#008cff] flex flex-col items-center py-10">
         <h2 className="text-3xl font-bold text-black w-full text-center pt-5 pb-5 mb-8 shadow-lg">
-          All Users
+          Block List
         </h2>
         <div className="w-full max-w-lg bg-white shadow-2xl rounded-lg p-6">
           {friendData.map((user) => (
