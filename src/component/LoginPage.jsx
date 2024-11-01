@@ -148,109 +148,108 @@ const LoginPage = () => {
 
   return (
     <>
-     <div className="flex main">
-  <div className="w-[500px] LoginAnimetion gap-40 h-full">
-    <Lottie animationData={LoginAnimetion} />
-  </div>
-  <div className="warper md:mr-[390px] font-poppins rounded-[12px]">
-    <form onSubmit={SubForForm}>
-      <h1 className=" text-[30px] md:text-[35px] text-center font-poppins font-semibold">
-        Login
-      </h1>
-      <div className="inputBox">
-        <input
-          type="email"
-          onChange={funForEmail}
-          placeholder="Your email please"
-        />
-        <FaUser className="icons" />
-      </div>
-      <div className="mb-8">
-        <p className="pl-5 text-[#8bcfff] text-[12px]"> {emailEror} </p>
-      </div>
+      <div className="flex main">
+        <div className="w-[500px] LoginAnimetion hidden lg:block gap-40 h-full">
+          <Lottie animationData={LoginAnimetion} />
+        </div>
+        <div className="warper lg:mr-[390px] font-poppins rounded-[12px]">
+          <form onSubmit={SubForForm}>
+            <h1 className=" text-[30px] md:text-[35px] text-center font-poppins font-semibold">
+              Login
+            </h1>
+            <div className="inputBox">
+              <input
+                type="email"
+                onChange={funForEmail}
+                placeholder="Your email please"
+              />
+              <FaUser className="icons" />
+            </div>
+            <div className="mb-8">
+              <p className="pl-5 text-[#8bcfff] text-[12px]"> {emailEror} </p>
+            </div>
 
-      <div className="inputBox">
-        <input
-          type={one ? "text" : "password"}
-          onChange={funForpassword}
-          placeholder="Your password please"
-        />
-        {one ? (
-          <FaUnlock className="icons" onClick={nextIcon} />
-        ) : (
-          <FaLock className="icons" onClick={nextIcon} />
-        )}
-      </div>
-      <div className="mb-8">
-        <p className="pl-5 text-[#8bcfff] text-[12px]">
-          {" "}
-          {passwordEror}{" "}
-        </p>
-      </div>
-      <div className="rememberForgot">
-        <label>
-          {" "}
-          <input type="checkbox" />
-          Remember me{" "}
-        </label>
-        <Link to="/forgetPassword"> forgot password ? </Link>
-      </div>
+            <div className="inputBox">
+              <input
+                type={one ? "text" : "password"}
+                onChange={funForpassword}
+                placeholder="Your password please"
+              />
+              {one ? (
+                <FaUnlock className="icons" onClick={nextIcon} />
+              ) : (
+                <FaLock className="icons" onClick={nextIcon} />
+              )}
+            </div>
+            <div className="mb-8">
+              <p className="pl-5 text-[#8bcfff] text-[12px]">
+                {" "}
+                {passwordEror}{" "}
+              </p>
+            </div>
+            <div className="rememberForgot">
+              <label className="text-[12px] md:text-[15px] ">
+                {" "}
+                <input  type="checkbox" />
+                Remember me{" "}
+              </label>
+              <Link className="text-[12px] md:text-[15px] " to="/forgetPassword"> forgot password ? </Link>
+            </div>
 
-      {/* Submit Button */}
-      {loader ? (
-        <div className="flex smalldevice justify-center items-center w-[70%] md:w-full h-[35px] md:h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[14px] md:text-[17px] text-[#333] font-semibold rounded-[40px] bg-white">
-          <BeatLoader />
-        </div>
-      ) : (
-        <button
-          type="submit"
-          className=" smalldevice w-[70%] md:w-full h-[35px] md:h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[14px] md:text-[17px] text-[#333] font-semibold rounded-[40px] bg-white"
-        >
-          Login
-        </button>
-      )}
+            {/* Submit Button */}
+            {loader ? (
+              <div className="flex smalldevice justify-center items-center w-[70%] md:w-full h-[35px] md:h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[14px] md:text-[17px] text-[#333] font-semibold rounded-[40px] bg-white">
+                <BeatLoader />
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className=" smalldevice w-[70%] md:w-full h-[35px] md:h-[45px] active:scale-105 transition-all border-none outline-none shadow-md cursor-pointer text-[14px] md:text-[17px] text-[#333] font-semibold rounded-[40px] bg-white"
+              >
+                Login
+              </button>
+            )}
 
-      <div className="w-full flex mt-10 items-center gap-3 justify-center">
-        <div className="w-40 h-[2px] bg-white"></div>
-        <div className="">
-          <p>Or</p>
+            <div className="w-full flex mt-10 items-center gap-3 justify-center">
+              <div className="w-40 h-[2px] bg-white"></div>
+              <div className="">
+                <p>Or</p>
+              </div>
+              <div className="w-40 h-[2px] bg-white"></div>
+            </div>
+            <div className="w-full gap-10 justify-center mt-5 mb-12 flex">
+              <div className="w-7 h-7">
+                <Link to="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fhl%3Den%26utm_source%3DOGB%26utm_medium%3Dact&ec=GAlAwAE&hl=en&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S1108304790%3A1721147554738150&ddm=0">
+                  <img src="photos/search.png" alt="link" />
+                </Link>
+              </div>
+              <div className="w-7 h-7">
+                <Link to="https://web.facebook.com">
+                  <img src="photos/facebook.png" alt="link" />
+                </Link>
+              </div>
+              <div className="w-7 h-7">
+                <Link to="https://x.com">
+                  <img src="photos/twitter.png" alt="link" />
+                </Link>
+              </div>
+              <div className="w-7 h-7">
+                <Link to="https://www.icloud.com/">
+                  <img src="photos/apple-logo.png" alt="link" />
+                </Link>
+              </div>
+            </div>
+            <div className="registerLink text-[15px] text-center mt-5">
+              <p>
+                Don't have an account ?{" "}
+                <Link className="" to="/registion">
+                  Register
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-        <div className="w-40 h-[2px] bg-white"></div>
       </div>
-      <div className="w-full gap-10 justify-center mt-5 mb-12 flex">
-        <div className="w-7 h-7">
-          <Link to="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fhl%3Den%26utm_source%3DOGB%26utm_medium%3Dact&ec=GAlAwAE&hl=en&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S1108304790%3A1721147554738150&ddm=0">
-            <img src="photos/search.png" alt="link" />
-          </Link>
-        </div>
-        <div className="w-7 h-7">
-          <Link to="https://web.facebook.com">
-            <img src="photos/facebook.png" alt="link" />
-          </Link>
-        </div>
-        <div className="w-7 h-7">
-          <Link to="https://x.com">
-            <img src="photos/twitter.png" alt="link" />
-          </Link>
-        </div>
-        <div className="w-7 h-7">
-          <Link to="https://www.icloud.com/">
-            <img src="photos/apple-logo.png" alt="link" />
-          </Link>
-        </div>
-      </div>
-      <div className="registerLink text-[15px] text-center mt-5">
-        <p>
-          Don't have an account ?{" "}
-          <Link className="" to="/registion">
-            Register
-          </Link>
-        </p>
-      </div>
-    </form>
-  </div>
-</div>
-
     </>
   );
 };
